@@ -4,9 +4,8 @@ const p2p_port = process.env.P2P_PORT ? parseInt(process.env.P2P_PORT) : 6001
 const initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : []
 
 export default class P2pServer {
-  public messageHandler = (_: string) => {}
   private sockets: WebSocket[] = []
-  constructor() {
+  constructor(public messageHandler: (string) => any) {
     this.connectToPeers(initialPeers)
     const server = new WebSocket.Server({ port: p2p_port })
     server.on('connection', ws => this.initConnection(ws))
